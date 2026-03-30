@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Amogh Tamrakar — Brand & Identity Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    /* ── Karkat base: Blue & White ── */
+    --blue-deep:    #08172E;
+    --blue-navy:    #0F2240;
+    --blue-mid:     #163568;
+    --blue-rich:    #1B4B9E;
+    --blue-bright:  #2E6FD4;
+    --blue-sky:     #5B9BE8;
+    --blue-pale:    #C2D9F5;
+    --blue-ghost:   #EBF3FC;
+    --white:        #FFFFFF;
+    --off-white:    #F6F9FD;
+    --silver:       #C5D5E8;
+    --muted:        rgba(14,34,64,0.45);
+
+    /* ── Per-brand accent signatures ── */
+    --aakar-gold:   #C8973A;
+    --aakar-teal:   #2A8A7A;
+    --aakar-deep:   #060E1C;
+
+    --riticraft-clay:   #B5694A;
+    --riticraft-sage:   #7A9E7E;
+    --riticraft-oat:    #F0E6D3;
+
+    --trio-cyan:    #00B4CC;
+    --trio-slate:   #2A3F5C;
+    --trio-neon:    #1BE8C8;
+
+    --nhuggu-rose:  #C4607A;
+    --nhuggu-blush: #F2C4CF;
+    --nhuggu-plum:  #3D1A2A;
+
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans:  'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--off-white);
+    color: var(--blue-deep);
+    font-family: var(--sans);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CURSOR ── */
+  .cursor { position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; }
+  .cursor-dot { width: 5px; height: 5px; background: var(--blue-bright); border-radius: 50%; position: absolute; transform: translate(-50%,-50%); transition: background .2s; }
+  .cursor-ring { width: 28px; height: 28px; border: 1px solid var(--blue-sky); border-radius: 50%; position: absolute; transform: translate(-50%,-50%); transition: all .18s ease; opacity: .55; }
+  body:has(.hoverable:hover) .cursor-ring { transform: translate(-50%,-50%) scale(2.2); opacity: 1; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 60px;
+    background: rgba(8,23,46,.92);
+    backdrop-filter: blur(18px);
+    border-bottom: .5px solid rgba(91,155,232,.12);
+  }
+  .nav-logo { font-family: var(--serif); font-size: 17px; font-weight: 600; letter-spacing: .05em; color: var(--white); text-decoration: none; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { font-size: 10px; font-weight: 400; letter-spacing: .14em; text-transform: uppercase; color: var(--blue-pale); text-decoration: none; opacity: .65; transition: opacity .2s, color .2s; }
+  .nav-links a:hover { opacity: 1; color: var(--white); }
+  .nav-cta { background: var(--blue-bright); color: var(--white) !important; opacity: 1 !important; padding: 7px 18px; font-size: 10px !important; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; transition: background .2s !important; }
+  .nav-cta:hover { background: var(--blue-sky) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--blue-deep);
+    display: grid; grid-template-columns: 55% 45%;
+    position: relative; overflow: hidden;
+  }
+  /* Lunar rings decoration */
+  .hero::before {
+    content: '';
+    position: absolute; top: -160px; right: -160px;
+    width: 600px; height: 600px; border-radius: 50%;
+    border: 1px solid rgba(91,155,232,.07);
+    box-shadow: 0 0 0 60px rgba(91,155,232,.04), 0 0 0 120px rgba(91,155,232,.025), 0 0 0 180px rgba(91,155,232,.015);
+    pointer-events: none;
+  }
+  /* Dot grid */
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(91,155,232,.07) 1px, transparent 1px);
+    background-size: 36px 36px;
+    pointer-events: none;
+  }
+
+  .hero-left { display: flex; flex-direction: column; justify-content: flex-end; padding: 90px 70px; position: relative; z-index: 1; }
+
+  .hero-eyebrow { font-size: 9px; letter-spacing: .24em; text-transform: uppercase; color: var(--blue-sky); opacity: .5; margin-bottom: 24px; opacity: 0; animation: fadeUp .8s .2s forwards; }
+  .hero-name { font-family: var(--serif); font-size: clamp(54px, 7vw, 92px); font-weight: 300; line-height: .92; color: var(--white); letter-spacing: -.025em; opacity: 0; animation: fadeUp .9s .4s forwards; }
+  .hero-name em { display: block; font-style: italic; color: var(--blue-sky); }
+  .hero-role { margin-top: 28px; font-size: 11px; font-weight: 300; letter-spacing: .18em; text-transform: uppercase; color: rgba(194,217,245,.4); opacity: 0; animation: fadeUp .8s .65s forwards; }
+  .hero-cta-row { margin-top: 52px; display: flex; align-items: center; gap: 32px; opacity: 0; animation: fadeUp .8s .85s forwards; }
+  .hero-cta-main { display: inline-flex; align-items: center; gap: 14px; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--blue-sky); text-decoration: none; transition: gap .25s; }
+  .hero-cta-main:hover { gap: 24px; }
+  .hero-cta-line { width: 32px; height: 1px; background: var(--blue-bright); transition: width .25s; }
+  .hero-cta-main:hover .hero-cta-line { width: 52px; }
+  .hero-cta-secondary { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: rgba(194,217,245,.35); text-decoration: none; transition: color .2s; }
+  .hero-cta-secondary:hover { color: var(--blue-pale); }
+
+  .hero-right { display: flex; flex-direction: column; justify-content: center; padding: 120px 60px 90px 40px; position: relative; z-index: 1; }
+
+  .hero-tagline { font-family: var(--serif); font-size: clamp(20px,2.5vw,32px); font-weight: 300; font-style: italic; line-height: 1.55; color: var(--white); border-left: 2px solid var(--blue-bright); padding-left: 24px; opacity: 0; animation: fadeUp .9s .6s forwards; }
+  .hero-tagline strong { font-style: normal; font-weight: 600; color: var(--blue-pale); }
+
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 40px; opacity: 0; animation: fadeUp .8s .85s forwards; }
+  .hero-stat { background: rgba(255,255,255,.03); border: .5px solid rgba(91,155,232,.12); padding: 20px 22px; }
+  .hero-stat-num { font-family: var(--serif); font-size: 32px; font-weight: 300; color: var(--white); line-height: 1; }
+  .hero-stat-label { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: rgba(194,217,245,.4); margin-top: 5px; }
+
+  .hero-karkat { position: absolute; top: 30px; right: 32px; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: 0; animation: fadeUp 1s 1.1s forwards; }
+  .karkat-symbol { font-size: 22px; color: rgba(91,155,232,.3); }
+  .karkat-label { font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: rgba(91,155,232,.2); }
+
+  .hero-scroll { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 8px; letter-spacing: .22em; text-transform: uppercase; color: rgba(194,217,245,.3); z-index: 2; }
+  .hero-scroll-line { width: 1px; height: 44px; background: var(--blue-bright); animation: scrollPulse 2.2s ease-in-out infinite; }
+  @keyframes scrollPulse { 0%,100%{opacity:.3;transform:scaleY(1)} 50%{opacity:.9;transform:scaleY(.5)} }
+
+  /* ── SECTION SHELL ── */
+  .section-header { padding: 88px 60px 52px; display: flex; align-items: baseline; justify-content: space-between; border-bottom: .5px solid var(--blue-ghost); }
+  .section-eyebrow { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--blue-bright); font-weight: 400; }
+  .section-title { font-family: var(--serif); font-size: clamp(32px,4.5vw,56px); font-weight: 300; color: var(--blue-deep); line-height: 1; margin-top: 8px; }
+  .section-count { font-family: var(--serif); font-size: 56px; font-weight: 300; color: var(--blue-ghost); line-height: 1; user-select: none; }
+
+  /* ── BRANDS GRID ── */
+  .brands-section { background: var(--off-white); }
+
+  .brands-grid {
+    padding: 0 60px 120px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 3px;
+  }
+
+  /* ── BRAND CARD BASE ── */
+  .brand-card {
+    position: relative; overflow: hidden; cursor: none;
+    display: grid; grid-template-columns: 1fr 1fr;
+    border: .5px solid var(--blue-ghost);
+    transition: border-color .35s;
+    min-height: 420px;
+  }
+  .brand-card:hover { border-color: var(--blue-sky); }
+  .brand-card:hover .brand-card-visual { transform: scale(1.03); }
+  .brand-card:hover .brand-card-cta-line { width: 44px; }
+  .brand-card:hover .brand-card-cta { gap: 20px; }
+
+  /* Rank badge */
+  .rank-badge {
+    position: absolute; top: 20px; left: 20px; z-index: 10;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--blue-deep);
+    border: .5px solid rgba(91,155,232,.25);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 13px; font-weight: 300; color: var(--blue-pale);
+  }
+
+  .brand-card-img { overflow: hidden; position: relative; }
+  .brand-card-visual { width: 100%; height: 100%; transition: transform .75s cubic-bezier(.25,.46,.45,.94); }
+
+  .brand-card-info {
+    padding: 40px 40px;
+    background: var(--white);
+    display: flex; flex-direction: column; justify-content: space-between;
+    border-left: .5px solid var(--blue-ghost);
+  }
+  .brand-card-eyebrow { font-size: 8px; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 10px; }
+  .brand-card-name { font-family: var(--serif); font-size: clamp(24px,2.8vw,38px); font-weight: 300; line-height: 1.05; color: var(--blue-deep); margin-bottom: 14px; }
+  .brand-card-name em { display: block; font-style: italic; }
+  .brand-card-desc { font-size: 12px; line-height: 1.85; color: var(--muted); margin-bottom: 24px; }
+  .brand-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 28px; }
+  .btag { font-size: 8px; letter-spacing: .12em; text-transform: uppercase; padding: 3px 9px; border: .5px solid var(--blue-ghost); color: var(--muted); }
+  .brand-card-cta { display: inline-flex; align-items: center; gap: 12px; font-size: 9px; letter-spacing: .16em; text-transform: uppercase; text-decoration: none; transition: gap .25s; margin-top: auto; }
+  .brand-card-cta-line { width: 24px; height: 1px; transition: width .25s; }
+
+  /* ── CARD 1: AAKAR — dark navy / gold ── */
+  .card-aakar { grid-column: 1; grid-row: 1; }
+  .card-aakar:hover { border-color: var(--aakar-gold); }
+  .aakar-visual {
+    min-height: 420px;
+    background:
+      radial-gradient(ellipse at 30% 60%, rgba(42,138,122,.5) 0%, transparent 45%),
+      radial-gradient(ellipse at 72% 28%, rgba(200,151,58,.35) 0%, transparent 42%),
+      radial-gradient(ellipse at 78% 75%, rgba(42,74,154,.4) 0%, transparent 40%),
+      linear-gradient(150deg, #040b18 0%, #0b1c32 55%, #040b18 100%);
+    display: flex; align-items: center; justify-content: center; position: relative;
+  }
+  .aakar-monogram { width: 80px; height: 80px; border-radius: 50%; border: 1px solid rgba(200,151,58,.45); display: flex; align-items: center; justify-content: center; position: relative; }
+  .aakar-monogram::before { content: ''; position: absolute; inset: -9px; border-radius: 50%; border: .5px solid rgba(200,151,58,.15); }
+  .aakar-monogram::after { content: ''; position: absolute; inset: -18px; border-radius: 50%; border: .5px solid rgba(200,151,58,.07); }
+  .aakar-monogram span { font-family: var(--serif); font-size: 32px; font-style: italic; color: var(--aakar-gold); }
+  .aakar-gem { position: absolute; border-radius: 50% 50% 45% 45%; }
+  .gem-t { top: 26px; right: 34px; width: 16px; height: 24px; background: radial-gradient(ellipse at 40% 35%, #4BBBA8, #0d4a40); opacity: .7; }
+  .gem-a { bottom: 50px; right: 26px; width: 12px; height: 20px; background: radial-gradient(ellipse at 40% 35%, #E0AA4A, #6b3a0a); opacity: .6; }
+  .gem-l { top: 50px; left: 30px; width: 14px; height: 22px; background: radial-gradient(ellipse at 40% 35%, #5B78D4, #0d1a4a); opacity: .6; }
+  .aakar-card-label { position: absolute; bottom: 22px; left: 22px; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: rgba(200,151,58,.45); }
+  .card-aakar .brand-card-eyebrow { color: var(--aakar-gold); }
+  .card-aakar .brand-card-cta { color: var(--aakar-gold); }
+  .card-aakar .brand-card-cta-line { background: var(--aakar-gold); }
+
+  /* ── CARD 2: RITICRAFT — warm oat / clay / sage ── */
+  .card-riticraft { grid-column: 2; grid-row: 1; }
+  .card-riticraft:hover { border-color: var(--riticraft-clay); }
+  .riticraft-visual {
+    min-height: 420px;
+    background:
+      radial-gradient(ellipse at 40% 35%, rgba(181,105,74,.55) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 70%, rgba(122,158,126,.4) 0%, transparent 45%),
+      linear-gradient(145deg, #2a1a10 0%, #3d2518 55%, #1e130a 100%);
+    display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+  }
+  /* Yarn texture lines */
+  .riticraft-visual::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(112deg, transparent, transparent 18px, rgba(181,105,74,.06) 18px, rgba(181,105,74,.06) 19px),
+      repeating-linear-gradient(68deg, transparent, transparent 22px, rgba(122,158,126,.05) 22px, rgba(122,158,126,.05) 23px);
+  }
+  .riticraft-mark {
+    display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; z-index: 1;
+  }
+  .riticraft-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    border: 1px solid rgba(181,105,74,.4);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .riticraft-icon::before { content: ''; position: absolute; inset: -9px; border-radius: 50%; border: .5px solid rgba(181,105,74,.15); }
+  .riticraft-icon span { font-family: var(--serif); font-size: 26px; color: var(--riticraft-clay); font-style: italic; }
+  .riticraft-wordmark { font-family: var(--serif); font-size: 14px; letter-spacing: .18em; color: rgba(240,230,211,.5); text-transform: uppercase; }
+  .riticraft-thread { position: absolute; width: 2px; border-radius: 1px; opacity: .4; }
+  .thread-1 { height: 90px; background: linear-gradient(to bottom, transparent, var(--riticraft-clay), transparent); top: 20%; left: 22%; transform: rotate(15deg); }
+  .thread-2 { height: 70px; background: linear-gradient(to bottom, transparent, var(--riticraft-sage), transparent); top: 30%; right: 20%; transform: rotate(-20deg); }
+  .thread-3 { height: 110px; background: linear-gradient(to bottom, transparent, var(--riticraft-clay), transparent); bottom: 15%; left: 35%; transform: rotate(8deg); }
+  .riticraft-label { position: absolute; bottom: 22px; left: 22px; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: rgba(181,105,74,.4); }
+  .card-riticraft .brand-card-eyebrow { color: var(--riticraft-clay); }
+  .card-riticraft .brand-card-cta { color: var(--riticraft-clay); }
+  .card-riticraft .brand-card-cta-line { background: var(--riticraft-clay); }
+
+  /* ── CARD 3: TRIOPLUS — tech / cyan / dark slate ── */
+  .card-trio { grid-column: 1; grid-row: 2; }
+  .card-trio:hover { border-color: var(--trio-cyan); }
+  .trio-visual {
+    min-height: 380px;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(0,180,204,.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 72% 65%, rgba(27,232,200,.15) 0%, transparent 45%),
+      linear-gradient(155deg, #06111e 0%, #0f1e33 55%, #06111e 100%);
+    display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+  }
+  /* Circuit grid lines */
+  .trio-visual::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,180,204,.06) 39px, rgba(0,180,204,.06) 40px),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,180,204,.06) 39px, rgba(0,180,204,.06) 40px);
+  }
+  .trio-mark { display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; z-index: 1; }
+  .trio-logo-box {
+    width: 72px; height: 72px;
+    border: 1px solid rgba(0,180,204,.4);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .trio-logo-box::before { content: ''; position: absolute; inset: -5px; border: .5px solid rgba(0,180,204,.12); }
+  .trio-logo-box::after { content: ''; position: absolute; inset: 6px; border: .5px solid rgba(0,180,204,.1); }
+  .trio-logo-box span { font-family: var(--serif); font-size: 26px; font-weight: 300; color: var(--trio-cyan); letter-spacing: -.02em; }
+  .trio-wordmark { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: rgba(0,180,204,.4); font-family: var(--sans); }
+  /* Scan line */
+  .trio-scanline { position: absolute; width: 100%; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,180,204,.3), transparent); animation: scan 3s ease-in-out infinite; }
+  @keyframes scan { 0%{top:20%;opacity:0} 20%{opacity:1} 80%{opacity:1} 100%{top:80%;opacity:0} }
+  .trio-node { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--trio-cyan); opacity: .4; }
+  .trio-node-1 { top: 25%; left: 18%; }
+  .trio-node-2 { top: 35%; right: 22%; }
+  .trio-node-3 { bottom: 30%; left: 28%; }
+  .trio-node-4 { bottom: 22%; right: 18%; }
+  .trio-label { position: absolute; bottom: 22px; left: 22px; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: rgba(0,180,204,.35); }
+  .card-trio .brand-card-eyebrow { color: var(--trio-cyan); }
+  .card-trio .brand-card-cta { color: var(--trio-cyan); }
+  .card-trio .brand-card-cta-line { background: var(--trio-cyan); }
+  .card-trio .brand-card-info { background: #f4f8fc; }
+
+  /* ── CARD 4: NHUGGU — rose / blush / editorial ── */
+  .card-nhuggu { grid-column: 2; grid-row: 2; }
+  .card-nhuggu:hover { border-color: var(--nhuggu-rose); }
+  .nhuggu-visual {
+    min-height: 380px;
+    background:
+      radial-gradient(ellipse at 35% 45%, rgba(196,96,122,.45) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 65%, rgba(242,196,207,.2) 0%, transparent 45%),
+      linear-gradient(145deg, #1a0810 0%, #2e1020 55%, #1a0810 100%);
+    display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+  }
+  .nhuggu-visual::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(135deg, transparent, transparent 28px, rgba(196,96,122,.04) 28px, rgba(196,96,122,.04) 29px);
+  }
+  .nhuggu-mark { display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; z-index: 1; }
+  .nhuggu-wordmark-display { font-family: var(--serif); font-size: 38px; font-weight: 300; font-style: italic; color: rgba(242,196,207,.6); letter-spacing: .05em; line-height: 1; }
+  .nhuggu-tagline-display { font-size: 8px; letter-spacing: .22em; text-transform: uppercase; color: rgba(196,96,122,.4); }
+  /* Phase pills */
+  .nhuggu-phases { display: flex; gap: 6px; margin-top: 8px; }
+  .phase-pill { font-size: 7px; letter-spacing: .14em; text-transform: uppercase; padding: 3px 10px; border: .5px solid rgba(196,96,122,.35); color: rgba(242,196,207,.45); border-radius: 12px; }
+  .phase-pill.active { background: rgba(196,96,122,.2); color: rgba(242,196,207,.8); border-color: rgba(196,96,122,.6); }
+  .nhuggu-label { position: absolute; bottom: 22px; left: 22px; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: rgba(196,96,122,.35); }
+  .card-nhuggu .brand-card-eyebrow { color: var(--nhuggu-rose); }
+  .card-nhuggu .brand-card-cta { color: var(--nhuggu-rose); }
+  .card-nhuggu .brand-card-cta-line { background: var(--nhuggu-rose); }
+  .card-nhuggu .brand-card-info { background: #fdf8f9; }
+
+  /* ── BRAND OVERVIEW STRIP ── */
+  .brand-strip {
+    background: var(--blue-deep);
+    display: grid; grid-template-columns: repeat(4,1fr);
+    border-top: .5px solid rgba(91,155,232,.1);
+  }
+  .strip-cell {
+    padding: 36px 32px;
+    border-right: .5px solid rgba(91,155,232,.08);
+    transition: background .3s;
+  }
+  .strip-cell:last-child { border-right: none; }
+  .strip-cell:hover { background: rgba(91,155,232,.05); }
+  .strip-num { font-family: var(--serif); font-size: 11px; color: rgba(91,155,232,.3); margin-bottom: 14px; display: block; }
+  .strip-brand { font-family: var(--serif); font-size: 19px; font-weight: 300; color: var(--white); margin-bottom: 6px; }
+  .strip-role { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
+  .strip-desc { font-size: 11px; line-height: 1.75; color: rgba(194,217,245,.4); }
+  .strip-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+
+  /* ── SERVICES ── */
+  .services-section { background: var(--white); }
+  .services-grid { margin: 0 60px 100px; display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+  .service-card { padding: 44px 36px; border: .5px solid var(--blue-ghost); transition: border-color .3s, background .3s; }
+  .service-card:hover { border-color: var(--blue-sky); background: var(--off-white); }
+  .service-icon { font-family: var(--serif); font-size: 32px; font-weight: 300; color: var(--blue-bright); margin-bottom: 20px; line-height: 1; }
+  .service-title { font-family: var(--serif); font-size: 22px; font-weight: 300; color: var(--blue-deep); margin-bottom: 12px; }
+  .service-desc { font-size: 12px; line-height: 1.8; color: var(--muted); margin-bottom: 20px; }
+  .service-tools { display: flex; gap: 6px; flex-wrap: wrap; }
+  .stool { font-size: 8px; letter-spacing: .12em; text-transform: uppercase; padding: 3px 9px; border: .5px solid var(--blue-ghost); color: var(--muted); }
+
+  /* ── ABOUT + CONTACT ── */
+  .about-section { background: var(--blue-navy); display: grid; grid-template-columns: 1fr 1fr; min-height: 65vh; }
+  .about-left { padding: 88px 60px; border-right: .5px solid rgba(91,155,232,.1); }
+  .about-eyebrow { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--blue-sky); opacity: .5; margin-bottom: 24px; }
+  .about-text { font-family: var(--serif); font-size: clamp(20px,2.3vw,30px); font-weight: 300; line-height: 1.65; color: rgba(255,255,255,.85); }
+  .about-text em { font-style: italic; color: var(--blue-pale); }
+  .about-brands-handled { margin-top: 36px; display: flex; flex-direction: column; gap: 10px; }
+  .abh-row { display: flex; align-items: center; gap: 12px; }
+  .abh-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .abh-name { font-family: var(--serif); font-size: 15px; font-weight: 300; color: rgba(255,255,255,.7); }
+  .abh-role { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: rgba(194,217,245,.3); margin-left: auto; }
+  .about-tools { margin-top: 36px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .about-tool { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 5px 12px; border: .5px solid rgba(91,155,232,.2); color: rgba(194,217,245,.45); }
+  .karkat-note { margin-top: 28px; display: flex; align-items: center; gap: 8px; font-size: 10px; color: rgba(91,155,232,.3); letter-spacing: .1em; }
+
+  .about-right { padding: 88px 60px; display: flex; flex-direction: column; justify-content: space-between; }
+  .contact-label { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--blue-sky); opacity: .45; margin-bottom: 16px; }
+  .contact-email { font-family: var(--serif); font-size: clamp(22px,2.8vw,36px); font-weight: 300; color: var(--white); text-decoration: none; border-bottom: 1px solid var(--blue-bright); padding-bottom: 3px; display: inline-block; transition: color .2s; }
+  .contact-email:hover { color: var(--blue-pale); }
+  .contact-links { display: flex; gap: 24px; margin-top: 28px; }
+  .contact-link { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: rgba(194,217,245,.4); text-decoration: none; transition: color .2s; }
+  .contact-link:hover { color: var(--white); }
+  .contact-cta { display: inline-flex; align-items: center; gap: 14px; background: var(--blue-bright); color: var(--white); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; padding: 16px 30px; text-decoration: none; font-weight: 400; transition: background .2s; margin-top: 48px; align-self: flex-start; }
+  .contact-cta:hover { background: var(--blue-sky); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--blue-deep); padding: 26px 60px; display: flex; align-items: center; justify-content: space-between; border-top: .5px solid rgba(91,155,232,.08); }
+  footer span { font-size: 10px; color: rgba(194,217,245,.22); letter-spacing: .1em; }
+  .footer-mark { font-family: var(--serif); font-size: 13px; color: var(--blue-bright); letter-spacing: .06em; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity .85s ease,transform .85s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+  .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s} .d4{transition-delay:.32s}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor">
+  <div class="cursor-ring"></div>
+  <div class="cursor-dot"></div>
+</div>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo">A. Tamrakar</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">About</a></li>
+    <li><a href="mailto:amoghmtamrakar.net@gmail.com" class="nav-cta hoverable">Hire me</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <div class="hero-karkat"><span class="karkat-symbol">♋</span><span class="karkat-label">Karkat</span></div>
+
+  <div class="hero-left">
+    <p class="hero-eyebrow">Portfolio · 2025 — Brand & Identity</p>
+    <h1 class="hero-name">Amogh<em>Tamrakar</em></h1>
+    <p class="hero-role">Brand Identity · Visual Systems · Content Design</p>
+    <div class="hero-cta-row">
+      <a href="#work" class="hero-cta-main hoverable">
+        <span class="hero-cta-line"></span>
+        View work
+      </a>
+      <a href="#contact" class="hero-cta-secondary hoverable">About me →</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <blockquote class="hero-tagline">
+      I build <strong>visual identities</strong> that carry a brand from its first logo to its last social post — systems that <strong>scale and last.</strong>
+    </blockquote>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">4</div>
+        <div class="hero-stat-label">Brands managed</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-label">Markets — USA · CA · NP</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">∞</div>
+        <div class="hero-stat-label">Scalable systems</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">KTM</div>
+        <div class="hero-stat-label">Based in Kathmandu</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll"><div class="hero-scroll-line"></div>Scroll</div>
+</section>
+
+<!-- ── WORK ── -->
+<section class="brands-section" id="work">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-eyebrow">Selected Work</p>
+      <h2 class="section-title">Four Brands</h2>
+    </div>
+    <span class="section-count">04</span>
+  </div>
+
+  <div class="brands-grid">
+
+    <!-- 01 AAKAR -->
+    <div class="brand-card card-aakar hoverable reveal">
+      <div class="rank-badge">01</div>
+      <div class="brand-card-img">
+        <div class="brand-card-visual aakar-visual">
+          <div class="aakar-gem gem-t"></div>
+          <div class="aakar-gem gem-a"></div>
+          <div class="aakar-gem gem-l"></div>
+          <div class="aakar-monogram"><span>A</span></div>
+          <p class="aakar-card-label">Aakar Accessories</p>
+        </div>
+      </div>
+      <div class="brand-card-info">
+        <div>
+          <p class="brand-card-eyebrow">01 · Brand Identity · My Brand</p>
+          <h3 class="brand-card-name">Aakar<em>Accessories</em></h3>
+          <p class="brand-card-desc">Full visual identity for a traditional Nepalese ethnic jewelry brand. Dark luxury aesthetic — deep navy canvas, gold typography, gemstone color palette rooted in craft heritage.</p>
+          <div class="brand-card-tags">
+            <span class="btag">Logo</span>
+            <span class="btag">Dark Luxury</span>
+            <span class="btag">Packaging</span>
+            <span class="btag">SMM</span>
+            <span class="btag">Affinity</span>
+          </div>
+        </div>
+        <a href="#contact" class="brand-card-cta hoverable">
+          <span class="brand-card-cta-line"></span>
+          View case study
+        </a>
+      </div>
+    </div>
+
+    <!-- 02 RITICRAFT -->
+    <div class="brand-card card-riticraft hoverable reveal d1">
+      <div class="rank-badge" style="background:var(--blue-navy);">02</div>
+      <div class="brand-card-img">
+        <div class="brand-card-visual riticraft-visual">
+          <div class="riticraft-thread thread-1"></div>
+          <div class="riticraft-thread thread-2"></div>
+          <div class="riticraft-thread thread-3"></div>
+          <div class="riticraft-mark">
+            <div class="riticraft-icon"><span>R</span></div>
+            <p class="riticraft-wordmark">Riticraft</p>
+          </div>
+          <p class="riticraft-label">Yarn & Textile Accessories</p>
+        </div>
+      </div>
+      <div class="brand-card-info">
+        <div>
+          <p class="brand-card-eyebrow">02 · Brand Identity · Friend's Brand</p>
+          <h3 class="brand-card-name">Rit<em>icraft</em></h3>
+          <p class="brand-card-desc">Artisan yarn and textile accessories brand. Warm, tactile aesthetic — clay, sage, and oat tones evoking handcraft, slow fashion, and Nepalese textile heritage.</p>
+          <div class="brand-card-tags">
+            <span class="btag">Logo</span>
+            <span class="btag">Artisan</span>
+            <span class="btag">Textile</span>
+            <span class="btag">Warm Palette</span>
+            <span class="btag">Canva</span>
+          </div>
+        </div>
+        <a href="#contact" class="brand-card-cta hoverable">
+          <span class="brand-card-cta-line"></span>
+          View case study
+        </a>
+      </div>
+    </div>
+
+    <!-- 03 TRIOPLUS -->
+    <div class="brand-card card-trio hoverable reveal d2">
+      <div class="rank-badge" style="background:var(--blue-navy);">03</div>
+      <div class="brand-card-img">
+        <div class="brand-card-visual trio-visual">
+          <div class="trio-scanline"></div>
+          <div class="trio-node trio-node-1"></div>
+          <div class="trio-node trio-node-2"></div>
+          <div class="trio-node trio-node-3"></div>
+          <div class="trio-node trio-node-4"></div>
+          <div class="trio-mark">
+            <div class="trio-logo-box"><span>T+</span></div>
+            <p class="trio-wordmark">Trioplus Technology</p>
+          </div>
+          <p class="trio-label">Technology Brand</p>
+        </div>
+      </div>
+      <div class="brand-card-info">
+        <div>
+          <p class="brand-card-eyebrow">03 · Brand Identity · Tech</p>
+          <h3 class="brand-card-name">Trioplus<em>Technology</em></h3>
+          <p class="brand-card-desc">Clean, systematic visual identity for a technology brand. Geometric precision, circuit-grid motifs, and a cyan-on-dark palette communicating reliability and innovation.</p>
+          <div class="brand-card-tags">
+            <span class="btag">Logo</span>
+            <span class="btag">Tech</span>
+            <span class="btag">System Design</span>
+            <span class="btag">Digital</span>
+            <span class="btag">Affinity</span>
+          </div>
+        </div>
+        <a href="#contact" class="brand-card-cta hoverable">
+          <span class="brand-card-cta-line"></span>
+          View case study
+        </a>
+      </div>
+    </div>
+
+    <!-- 04 NHUGGU -->
+    <div class="brand-card card-nhuggu hoverable reveal d3">
+      <div class="rank-badge" style="background:var(--blue-navy);">04</div>
+      <div class="brand-card-img">
+        <div class="brand-card-visual nhuggu-visual">
+          <div class="nhuggu-mark">
+            <p class="nhuggu-wordmark-display">Nhuggu</p>
+            <p class="nhuggu-tagline-display">Luxury Fashion · Nepal</p>
+            <div class="nhuggu-phases">
+              <span class="phase-pill active">Jewelry</span>
+              <span class="phase-pill">Beauty</span>
+              <span class="phase-pill">Clothing</span>
+            </div>
+          </div>
+          <p class="nhuggu-label">Nhuggu Fashion</p>
+        </div>
+      </div>
+      <div class="brand-card-info">
+        <div>
+          <p class="brand-card-eyebrow">04 · Brand + SMM · Luxury Fashion</p>
+          <h3 class="brand-card-name">Nhuggu<em>Fashion</em></h3>
+          <p class="brand-card-desc">Luxury fashion brand transitioning across three product phases — Jewelry, Beauty, and Clothing. Editorial magazine grid, global posting windows across Texas, Canada, and Nepal time zones.</p>
+          <div class="brand-card-tags">
+            <span class="btag">Luxury</span>
+            <span class="btag">3 Phases</span>
+            <span class="btag">SMM</span>
+            <span class="btag">Editorial Grid</span>
+            <span class="btag">Global</span>
+          </div>
+        </div>
+        <a href="#contact" class="brand-card-cta hoverable">
+          <span class="brand-card-cta-line"></span>
+          View case study
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Brand overview strip -->
+  <div class="brand-strip reveal">
+    <div class="strip-cell">
+      <span class="strip-num">01</span>
+      <p class="strip-brand">Aakar Accessories</p>
+      <p class="strip-role" style="color:var(--aakar-gold)"><span class="strip-dot" style="background:var(--aakar-gold)"></span>Founder · Designer</p>
+      <p class="strip-desc">Traditional ethnic jewelry. Dark luxury. Nepal & diaspora markets.</p>
+    </div>
+    <div class="strip-cell">
+      <span class="strip-num">02</span>
+      <p class="strip-brand">Riticraft</p>
+      <p class="strip-role" style="color:var(--riticraft-clay)"><span class="strip-dot" style="background:var(--riticraft-clay)"></span>Brand Designer</p>
+      <p class="strip-desc">Yarn & textile accessories. Artisan craft aesthetic. Slow fashion.</p>
+    </div>
+    <div class="strip-cell">
+      <span class="strip-num">03</span>
+      <p class="strip-brand">Trioplus Technology</p>
+      <p class="strip-role" style="color:var(--trio-cyan)"><span class="strip-dot" style="background:var(--trio-cyan)"></span>Brand Designer</p>
+      <p class="strip-desc">Technology brand. Geometric systems. Digital-first identity.</p>
+    </div>
+    <div class="strip-cell">
+      <span class="strip-num">04</span>
+      <p class="strip-brand">Nhuggu Fashion</p>
+      <p class="strip-role" style="color:var(--nhuggu-rose)"><span class="strip-dot" style="background:var(--nhuggu-rose)"></span>Brand + SMM Manager</p>
+      <p class="strip-desc">Luxury fashion. 3-phase transition. USA · Canada · Nepal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section class="services-section" id="services">
+  <div class="section-header reveal">
+    <div>
+      <p class="section-eyebrow">What I Do</p>
+      <h2 class="section-title">Services</h2>
+    </div>
+    <span class="section-count">03</span>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card hoverable reveal">
+      <div class="service-icon">01</div>
+      <h3 class="service-title">Brand Identity</h3>
+      <p class="service-desc">Scalable visual systems from the ground up — logo marks, color palettes, typography, pattern, and brand guidelines that work across print and digital.</p>
+      <div class="service-tools">
+        <span class="stool">Affinity Designer</span>
+        <span class="stool">CMYK / RGB</span>
+        <span class="stool">PDF · SVG · PNG</span>
+      </div>
+    </div>
+    <div class="service-card hoverable reveal d1">
+      <div class="service-icon">02</div>
+      <h3 class="service-title">Content Design</h3>
+      <p class="service-desc">Editorial feed systems, social media templates, and content calendars built on the 60/30/10 rule — optimised for global posting windows across multiple time zones.</p>
+      <div class="service-tools">
+        <span class="stool">Canva</span>
+        <span class="stool">Affinity</span>
+        <span class="stool">Notion</span>
+        <span class="stool">1080×1080px</span>
+      </div>
+    </div>
+    <div class="service-card hoverable reveal d2">
+      <div class="service-icon">03</div>
+      <h3 class="service-title">Packaging & Print</h3>
+      <p class="service-desc">Dielines, labels, hang tags, and print-ready brand collateral — production files built to professional print specs with full CMYK color management.</p>
+      <div class="service-tools">
+        <span class="stool">Affinity Publisher</span>
+        <span class="stool">CMYK</span>
+        <span class="stool">Print-ready PDF</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT + CONTACT ── -->
+<section class="about-section" id="contact">
+  <div class="about-left reveal">
+    <p class="about-eyebrow">About</p>
+    <p class="about-text">Brand & Identity Designer based in <em>Kathmandu</em>, building scalable visual systems for luxury, ethnic, tech, and artisan brands across <em>USA, Canada, and Nepal.</em></p>
+    <div class="about-brands-handled">
+      <div class="abh-row"><span class="abh-dot" style="background:var(--aakar-gold)"></span><span class="abh-name">Aakar Accessories</span><span class="abh-role">Founder · Designer</span></div>
+      <div class="abh-row"><span class="abh-dot" style="background:var(--riticraft-clay)"></span><span class="abh-name">Riticraft</span><span class="abh-role">Brand Designer</span></div>
+      <div class="abh-row"><span class="abh-dot" style="background:var(--trio-cyan)"></span><span class="abh-name">Trioplus Technology</span><span class="abh-role">Brand Designer</span></div>
+      <div class="abh-row"><span class="abh-dot" style="background:var(--nhuggu-rose)"></span><span class="abh-name">Nhuggu Fashion</span><span class="abh-role">Brand + SMM Manager</span></div>
+    </div>
+    <div class="about-tools">
+      <span class="about-tool">Affinity Designer</span>
+      <span class="about-tool">Canva</span>
+      <span class="about-tool">Notion</span>
+      <span class="about-tool">CMYK</span>
+      <span class="about-tool">Affinity Publisher</span>
+    </div>
+  </div>
+
+  <div class="about-right reveal d1">
+    <div>
+      <p class="contact-label">Get in touch</p>
+      <a href="mailto:amoghmtamrakar.net@gmail.com" class="contact-email hoverable">amoghmtamrakar.net@gmail.com</a>
+      <div class="contact-links">
+        <a href="#" class="contact-link hoverable">Behance</a>
+        <a href="#" class="contact-link hoverable">LinkedIn</a>
+        <a href="https://www.instagram.com/aakaraccessories.nepal/" class="contact-link hoverable">Instagram</a>
+      </div>
+    </div>
+    <a href="mailto:amoghmtamrakar.net@gmail.com" class="contact-cta hoverable">Book a free 15-min call →</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span>© 2025 Amogh Tamrakar · Kathmandu, Nepal</span>
+  <span class="footer-mark">A.T ♋</span>
+  <span>Brand & Identity Designer · 4 Brands</span>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const dot = cursor.querySelector('.cursor-dot');
+  const ring = cursor.querySelector('.cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function anim(){
+    dot.style.left=mx+'px';dot.style.top=my+'px';
+    rx+=(mx-rx)*0.13;ry+=(my-ry)*0.13;
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(anim);
+  })();
+
+  // Scroll reveal
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
